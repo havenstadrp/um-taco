@@ -7,38 +7,38 @@ Config.TacoTip = 25 -- not always
 Config.ProgressBar = {
     ["tacobread"] = {
         ["time"] =  4000,
-        ["text"] = "label"
+        ["text"] = "Brood snijden"
     },
     ["tacomeat"] = {
         ["time"] =  4000,
-        ["text"] = "label"
+        ["text"] = "Vlees bakken"
     },
     ["tacosalad"] = {
         ["time"] =  4000,
-        ["text"] = "label"
+        ["text"] = "Sla snijden"
     },
     ["taco"] = {
         ["time"] =  7000,
-        ["text"] = "label"
+        ["text"] = "Taco vullen"
     },
     ["packedtaco"] = {
         ["time"] =  8000,
-        ["text"] = "label"
+        ["text"] = "Taco verpakken"
     },
     ["selltacocustomer"] = {
         ["time"] =  6000,
-        ["text"] = "label"
+        ["text"] = "Taco's leveren"
     },
 }
 
 
 Config.TacoMarker = {
-    ["tacobread"] = vector3(15.71111, -1598.30, 29.377),
-    ["tacomeat"]  = vector3(14.38271, -1597.32, 29.377),
-    ["tacosalad"] = vector3(13.18363, -1596.59, 29.377),
-    ["taco"]      = vector3(13.54629, -1599.84, 29.376),
-    ["packedtaco"]= vector3(8.578270, -1603.40, 29.373),
-    ["selltaco"]  = vector3(10.97071, -1605.91, 29.393),
+    ["tacobread"] = vector3(14.36562, -1597.06, 29.377),
+    ["tacomeat"]  = vector3(11.34605, -1599.33, 29.375),
+    ["tacosalad"] = vector3(15.59666, -1598.30, 29.377),
+    ["taco"]      = vector3(13.46539, -1596.81, 29.377),
+    ["packedtaco"]= vector3(7.122154, -1604.74, 29.371),
+    ["selltaco"]  = vector3(5.339738, -1605.11, 29.395),
 }
 
 Config.Locations = {
