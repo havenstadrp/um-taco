@@ -1,286 +1,125 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 local sellstart = false
-local sellcontrol = false
-Citizen.CreateThread(function()
+
+CreateThread(function()
+    local enterZone = false
+    local Notify = nil
     while true do
-        local InRange = false
+        local sleep = 1250
+        local inZone = false
         local PlayerPed = PlayerPedId()
         local PlayerPos = GetEntityCoords(PlayerPed)
         local coords = GetBlipInfoIdCoord(sellblip)
-        local dist = #(PlayerPos - vector3(Config.TacoMarker["tacobread"]["x"],Config.TacoMarker["tacobread"]["y"],Config.TacoMarker["tacobread"]["z"]))
-        local dist2 = #(PlayerPos - vector3(Config.TacoMarker["tacomeat"]["x"],Config.TacoMarker["tacomeat"]["y"],Config.TacoMarker["tacomeat"]["z"]))
-        local dist3 = #(PlayerPos - vector3(Config.TacoMarker["tacosalad"]["x"],Config.TacoMarker["tacosalad"]["y"],Config.TacoMarker["tacosalad"]["z"]))
-        local dist4 = #(PlayerPos - vector3(Config.TacoMarker["taco"]["x"],Config.TacoMarker["taco"]["y"],Config.TacoMarker["taco"]["z"]))
-        local dist5 = #(PlayerPos - vector3(Config.TacoMarker["packedtaco"]["x"],Config.TacoMarker["packedtaco"]["y"],Config.TacoMarker["packedtaco"]["z"]))
-        local dist6 = #(PlayerPos - vector3(Config.TacoMarker["selltaco"]["x"],Config.TacoMarker["selltaco"]["y"],Config.TacoMarker["selltaco"]["z"]))
-        local dist7 = #(PlayerPos - vector3(coords[1], coords[2], coords[3]))
-
-        if dist < 2 then
-            InRange = true
-            DrawMarker(2, Config.TacoMarker["tacobread"]["x"],Config.TacoMarker["tacobread"]["y"],Config.TacoMarker["tacobread"]["z"], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
-            if dist < 1 then
-                DrawText3Ds(Config.TacoMarker["tacobread"]["x"],Config.TacoMarker["tacobread"]["y"],Config.TacoMarker["tacobread"]["z"] + 0.15, '~g~E~w~ - Taco Bread')
-                if IsControlJustPressed(0, 38) then -- E
-                    TacoBread() 
-                end
-            end
+        local tacobreadDist = #(PlayerPos - UM.TacoMarker["tacobread"])
+        local tacomeatDist = #(PlayerPos - UM.TacoMarker["tacomeat"])
+        local tacosaladDist = #(PlayerPos - UM.TacoMarker["tacosalad"])
+        local tacoDist = #(PlayerPos - UM.TacoMarker["taco"])
+        local tacopackedDist = #(PlayerPos - UM.TacoMarker["packedtaco"])
+        local tacoSell = #(PlayerPos - UM.TacoMarker["selltaco"])
+        local tacoDelivery = #(PlayerPos - vec3(coords[1], coords[2], coords[3]))
+        local pressedKeyE = IsControlJustPressed(0, 38)
+        if tacobreadDist < 1 then sleep = 5 inZone  = true 
+            Notify = '[E] - Taco Bread' if pressedKeyE then addItem(2000,"tacobread") end
         end
-        if dist2 < 2 then
-            InRange = true
-            DrawMarker(2, Config.TacoMarker["tacomeat"]["x"],Config.TacoMarker["tacomeat"]["y"],Config.TacoMarker["tacomeat"]["z"], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
-            if dist2 < 1 then
-                DrawText3Ds(Config.TacoMarker["tacomeat"]["x"],Config.TacoMarker["tacomeat"]["y"],Config.TacoMarker["tacomeat"]["z"] + 0.15, '~g~E~w~ - Taco Meat')
-                if IsControlJustPressed(0, 38) then -- E
-                    TacoMeat() 
-                end
-            end
+        if tacomeatDist < 1 then sleep = 5 inZone  = true  
+            Notify = '[E] - Taco Meat' if pressedKeyE then  addItem(8000,"tacomeat") end
         end
-        if dist3 < 2 then
-            InRange = true
-            DrawMarker(2, Config.TacoMarker["tacosalad"]["x"],Config.TacoMarker["tacosalad"]["y"],Config.TacoMarker["tacosalad"]["z"], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
-            if dist3 < 1 then
-                DrawText3Ds(Config.TacoMarker["tacosalad"]["x"],Config.TacoMarker["tacosalad"]["y"],Config.TacoMarker["tacosalad"]["z"] + 0.15, '~g~E~w~ - Taco Salad')
-                if IsControlJustPressed(0, 38) then -- E
-                    TacoSalad() 
-                end
-            end
+        if tacosaladDist < 1 then sleep = 5 inZone  = true 
+            Notify = '[E] - Taco Salad' if pressedKeyE then addItem(8000,"tacosalad") end
         end
-        if dist4 < 2 then
-            InRange = true
-            DrawMarker(2, Config.TacoMarker["taco"]["x"],Config.TacoMarker["taco"]["y"],Config.TacoMarker["taco"]["z"], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
-            if dist4 < 1 then
-                DrawText3Ds(Config.TacoMarker["taco"]["x"],Config.TacoMarker["taco"]["y"],Config.TacoMarker["taco"]["z"] + 0.15, '~g~E~w~ - Taco')
-                if IsControlJustPressed(0, 38) then -- E
-                    Taco()
-                end
-            end
+        if tacoDist < 1 then sleep = 5 inZone  = true 
+            Notify = '[E] - Taco' if pressedKeyE then checkTaco("taco") end
         end
-        if dist5 < 2 then
-            InRange = true
-            DrawMarker(2, Config.TacoMarker["packedtaco"]["x"],Config.TacoMarker["packedtaco"]["y"],Config.TacoMarker["packedtaco"]["z"], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
-            if dist5 < 1 then
-                DrawText3Ds(Config.TacoMarker["packedtaco"]["x"],Config.TacoMarker["packedtaco"]["y"],Config.TacoMarker["packedtaco"]["z"] + 0.15, '~g~E~w~ - Packed Taco')
-                if IsControlJustPressed(0, 38) then -- E
-                    InRange = false
-                    PackedTaco()
-                end
-            end
+        if tacopackedDist < 1 then sleep = 5 inZone  = true 
+            Notify = '[E] - Packed Taco' if pressedKeyE then checkItem("taco","packedtaco") end
         end
-        if dist6 < 2 then
-            InRange = true
-            DrawMarker(2, Config.TacoMarker["selltaco"]["x"],Config.TacoMarker["selltaco"]["y"],Config.TacoMarker["selltaco"]["z"], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
-            if dist6 < 1 then
-                DrawText3Ds(Config.TacoMarker["selltaco"]["x"],Config.TacoMarker["selltaco"]["y"],Config.TacoMarker["selltaco"]["z"] + 0.15, '~g~E~w~ - Sell Taco')
-                if IsControlJustPressed(0, 38) then -- E
-                    SellTaco()
-                end
-            end
-        end        
-        if sellstart == true and dist7 < 2 then
-            InRange = true
+        if tacoSell < 1 then sleep = 5 inZone  = true 
+            Notify = '[E] - Sell Taco' if pressedKeyE then sellTaco("packedtaco") end
+        end
+        if tacoDelivery < 4 and sellstart then sleep = 5
             DrawMarker(2, coords[1], coords[2], coords[3], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
-            if dist7 < 1 then
-                DrawText3Ds(coords[1], coords[2], coords[3] + 0.15, '~g~E~s~ - Taco Delivery')
-                if IsControlJustReleased(0, 38) then
-                    RemoveBlip(sellblip)
-                   SellTacoCustomer()
-                   sellcontrol = false
-                end 
-            end
+            if tacoDelivery < 1 then inZone  = true 
+                Notify = '[E] - Delivery Taco' if pressedKeyE then checkDelivery("packedtaco") end
+         end
+    end
+        if inZone and not enterZone then
+            enterZone = true
+            TriggerEvent('luke_textui:ShowUI', "<b>"..Notify.."</b>", "#D9911B")
         end
-        if not InRange then
-            Citizen.Wait(2000)
+        if not inZone and enterZone then
+            enterZone = false
+            TriggerEvent('luke_textui:HideUI')
         end
-        Citizen.Wait(5)
+        Wait(sleep)
     end
 end)
 
-
-
-function TacoBread() 
+addItem = function(time,additem) 
     local ped = PlayerPedId()
-    QBCore.Functions.Progressbar("taco_bread", Config.ProgressBar["tacobread"]["text"], Config.ProgressBar["tacobread"]["time"], false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-        animDict = "mp_arresting",
-        anim = "a_uncuff",
-        flags = 49,
-    }, {}, {}, function() -- Done
+    QBCore.Functions.Progressbar("tacos","Process in progress", time, false, true, 
+        {disableMovement = true,disableCarMovement = true,disableMouse = false,disableCombat = true,}, 
+        {animDict = "mp_arresting",anim = "a_uncuff",flags = 49,}, {}, {}, function() -- Done
         StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-        TriggerServerEvent('um-taco:givetacobread')
-    end, function() -- Cancel
-        StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-        QBCore.Functions.Notify("Canceled..", "error")
+        TriggerServerEvent('um-taco:server:additem',additem)
     end)
 end
 
-
-function TacoMeat() 
-    local ped = PlayerPedId()
-    QBCore.Functions.Progressbar("taco_meat", Config.ProgressBar["tacomeat"]["text"], Config.ProgressBar["tacomeat"]["time"], false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-        animDict = "mp_arresting",
-        anim = "a_uncuff",
-        flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-        TriggerServerEvent('um-taco:givetacomeat')
-    end, function() -- Cancel
-        StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-        QBCore.Functions.Notify("Canceled..", "error")
-    end)
+checkItem = function(checkitem,additem)
+    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(cb)  
+        if cb then
+            TriggerServerEvent('um-taco:server:removeitem',checkitem)
+            addItem(8000,additem) 
+        else
+            QBCore.Functions.Notify("You don't have a "..checkitem, "error")
+        end
+    end,checkitem)
 end
 
-
-function TacoSalad() 
-    local ped = PlayerPedId()
-    QBCore.Functions.Progressbar("taco_salad", Config.ProgressBar["tacosalad"]["text"], Config.ProgressBar["tacosalad"]["time"], false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-        animDict = "mp_arresting",
-        anim = "a_uncuff",
-        flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-        TriggerServerEvent('um-taco:givetacosalad')
-    end, function() -- Cancel
-        StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-        QBCore.Functions.Notify("Canceled..", "error")
-    end)
-end
-
-function Taco() 
-    QBCore.Functions.TriggerCallback('um-taco:tacocontrol', function(Items)  
-        if Items then
-            local ped = PlayerPedId()
-            QBCore.Functions.Progressbar("taco", Config.ProgressBar["taco"]["text"], Config.ProgressBar["taco"]["time"], false, true, {
-                disableMovement = true,
-                disableCarMovement = true,
-                disableMouse = false,
-                disableCombat = true,
-            }, {
-                animDict = "mp_arresting",
-                anim = "a_uncuff",
-                flags = 49,
-            }, {}, {}, function() -- Done
-                StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-                TriggerServerEvent("QBCore:Server:RemoveItem", "tacobread", 1)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["tacobread"], "remove")
-                TriggerServerEvent("QBCore:Server:RemoveItem", "tacomeat", 1)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["tacomeat"], "remove")
-                TriggerServerEvent("QBCore:Server:RemoveItem", "tacosalad", 1)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["tacosalad"], "remove")
-                TriggerServerEvent('um-taco:givetaco')
-            end, function() -- Cancel
-                StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-                QBCore.Functions.Notify("Canceled..", "error")
-            end)
+checkTaco = function(additem)
+    QBCore.Functions.TriggerCallback('um-taco:server:checktaco', function(cb)  
+        if cb then
+            addItem(8000,additem) 
         else
             QBCore.Functions.Notify("You don\'t have all the ingredients yet..", "error")
         end
     end)
 end
 
-
-function PackedTaco()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(item)
-        if item then
-            local ped = PlayerPedId()
-            QBCore.Functions.Progressbar("packedtaco", Config.ProgressBar["packedtaco"]["text"], Config.ProgressBar["packedtaco"]["time"], false, true, {
-                disableMovement = true,
-                disableCarMovement = true,
-                disableMouse = false,
-                disableCombat = true,
-            }, {
-                animDict = "mp_arresting",
-                anim = "a_uncuff",
-                flags = 49,
-            }, {}, {}, function() -- Done
-                StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-                TriggerServerEvent("QBCore:Server:RemoveItem", "taco", 1)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["taco"], "remove")
-                TriggerServerEvent('um-taco:givepackedtaco')
-            end, function() -- Cancel
-                StopAnimTask(ped, "mp_arresting", "a_uncuff", 1.0)
-                QBCore.Functions.Notify("Canceled..", "error")
-            end)
+sellTaco = function(checkitem)
+    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(cb)  
+        if cb and not sellstart then
+            local random = math.random(1,#UM.Locations)
+            sellcoords = {x = UM.Locations[random][1],y = UM.Locations[random][2],z = UM.Locations[random][3],h = UM.Locations[random][4]}
+            sellblip = CreateSellBlip(sellcoords.x, sellcoords.y, sellcoords.z)
+            SetNewWaypoint(sellcoords.x, sellcoords.y)
+            sellstart = true
+            QBCore.Functions.Notify("New address gps marked", "success")
         else
-        QBCore.Functions.Notify("You don't have a taco", "error")
-    end
-    end, "taco")
-end   
-
-
-
-function SellTaco()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(item)
-        if item then
-         if sellcontrol == false then
-            sellcontrol = true
-            RandomLocation()
-            QBCore.Functions.Notify("New address gps marked", "success")  
-         else
-            QBCore.Functions.Notify("You already have an order", "error")  
-         end
-        else
-        QBCore.Functions.Notify("You don't have a packedtaco", "error")
-    end
-    end, "packedtaco")
-end   
-
-function SellTacoCustomer()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(item)
-        if item then
-            local ped = PlayerPedId()
-            QBCore.Functions.Progressbar("selltacocustomer", Config.ProgressBar["selltacocustomer"]["text"], Config.ProgressBar["selltacocustomer"]["time"], false, true, {
-                disableMovement = true,
-                disableCarMovement = true,
-                disableMouse = false,
-                disableCombat = true,
-            }, {
-                animDict = "mp_common",
-                anim = "givetake1_a",
-                flags = 49,
-            }, {}, {}, function() -- Done
-                StopAnimTask(ped, "mp_common", "givetake1_a", 1.0)
-                TriggerServerEvent("QBCore:Server:RemoveItem", "packedtaco", 1)
-                TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items["packedtaco"], "remove")
-                TriggerServerEvent('um-taco:givemoney')
-            end, function() -- Cancel
-                StopAnimTask(ped, "mp_common", "givetake1_a", 1.0)
-                QBCore.Functions.Notify("Canceled..", "error")
-            end)
-        else
-        QBCore.Functions.Notify("You don't have a packedtaco", "error")
-    end
-    end, "packedtaco")
-end   
-
-
-function RandomLocation()
-    local random = math.random(1,#Config.Locations)
-    sellblip = true
-    sellcoords = {
-        x = Config.Locations[random][1],
-        y = Config.Locations[random][2],
-        z = Config.Locations[random][3],
-        h = Config.Locations[random][4]
-    }
-    sellblip = CreateSellBlip(sellcoords.x, sellcoords.y, sellcoords.z)
-    SetNewWaypoint(sellcoords.x, sellcoords.y)
-    sellstart = true
+            QBCore.Functions.Notify("You don't have a "..checkitem.." or have an active delivery", "error")
+        end
+    end,checkitem)
 end
 
-function CreateSellBlip(x,y,z)
+checkDelivery = function(checkitem)
+    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(cb)  
+        if cb and sellstart then
+            local ped = PlayerPedId()
+            QBCore.Functions.Progressbar("delivery","Process in progress", 6000, false, true, 
+            {disableMovement = true,disableCarMovement = true,disableMouse = false, disableCombat = true,}, 
+            {animDict = "mp_common",anim = "givetake1_a",flags = 49,}, {}, {}, function() -- Done
+            StopAnimTask(ped, "mp_common", "givetake1_a", 1.0)
+            RemoveBlip(sellblip) 
+            TriggerServerEvent('um-taco:server:removeitem',checkitem) 
+            TriggerServerEvent('um-taco:server:givemoney')
+            sellstart = false 
+        end)
+        else
+            QBCore.Functions.Notify("You don't have a "..checkitem, "error")
+        end
+    end,checkitem)
+end
+
+CreateSellBlip = function(x,y,z)
 	local blip = AddBlipForCoord(x,y,z)
 	SetBlipSprite(blip, 489)
 	SetBlipColour(blip, 1)
@@ -291,22 +130,16 @@ function CreateSellBlip(x,y,z)
 	return blip
 end
 
-function DrawText3Ds(x, y, z, text)
-	SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
-    SetTextCentre(true)
-    AddTextComponentString(text)
-    SetDrawOrigin(x,y,z, 0)
-    DrawText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
-end
-
-Citizen.CreateThread(function()
+CreateThread(function()
+    local modelHash = GetHashKey("u_f_o_eileen")
+    RequestModel(modelHash)
+      while not HasModelLoaded(modelHash) do
+        Wait(10)
+      end
+    local ped = CreatePed(4, modelHash, 9.95, -1604.68, 28.38, 230.2, false, false)
+    SetEntityInvincible(ped, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+    FreezeEntityPosition(ped, true)
     local blip = AddBlipForCoord(12.92127, -1602.86, 29.374)
     SetBlipSprite(blip, 208)
     SetBlipAsShortRange(blip, true)
@@ -316,4 +149,3 @@ Citizen.CreateThread(function()
     AddTextComponentString("Taco")
     EndTextCommandSetBlipName(blip)
 end)
-
