@@ -27,7 +27,7 @@ FiveM Taco job for **[qb-core](https://github.com/qbcore-framework/qb-core)**
 + [Luke Text UI](https://github.com/LukeWasTakenn/luke_textui)
 + add shared.lua items
 + images folder > qb-inventory > images
-+ server.cfg ```ensure luke_textui``` ```ensure um-taco```
++ server.cfg  ```ensure um-taco```
 
 
 ## License
