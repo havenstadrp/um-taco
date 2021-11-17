@@ -16,7 +16,7 @@ FiveM Taco job for **[qb-core](https://github.com/qbcore-framework/qb-core)**
 + taco bread
 + taco meat 
 + taco salad 
-+ > Taco
++ >> Taco
 + packaged taco
 + ready for sale
 
