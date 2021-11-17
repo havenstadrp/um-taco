@@ -39,7 +39,7 @@ CreateThread(function()
         if tacoDelivery < 4 and sellstart then sleep = 5
             DrawMarker(2, coords[1], coords[2], coords[3], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
             if tacoDelivery < 1 then inZone  = true 
-                Notify = '[E] - Delivery Taco' if pressedKeyE then checkDelivery("packedtaco") end
+               Notify = '[E] - Delivery Taco' if pressedKeyE then checkDelivery("packedtaco") end
          end
     end
         if inZone and not enterZone then
