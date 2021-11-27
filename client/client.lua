@@ -1,3 +1,4 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 local sellstart = false
 local sellcontrol = false
 Citizen.CreateThread(function()

@@ -1,4 +1,4 @@
-
+local QBCore = exports['qb-core']:GetCoreObject()
     RegisterServerEvent('um-taco:givetacobread')
     AddEventHandler('um-taco:givetacobread', function()
         local src = source
