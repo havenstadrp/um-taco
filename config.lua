@@ -1,8 +1,8 @@
-Config = {}
+UM = {}
 
-Config.TacoMoneyMin = 300
-Config.TacoMoneyMax = 500
-Config.TacoTip = 25 -- not always 
+UM.TacoMoneyMin = 300
+UM.TacoMoneyMax = 500
+UM.TacoTip = 25 -- not always 
 
 Config.ProgressBar = {
     ["tacobread"] = {
