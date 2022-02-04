@@ -18,13 +18,13 @@ RegisterNetEvent('um-taco:server:givemoney', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local tiprandom = math.random(1,50)
-    local tacomoney = math.random(UM.TacoMoneyMin,UM.TacoMoneyMax)
+    local tacomoney = math.random(Config.TacoMoneyMin,Config.TacoMoneyMax)
     Player.Functions.AddMoney("cash", tacomoney, "taco-money")
     TriggerClientEvent('QBCore:Notify', src, "Taco delivered! Go back to the taco shop for a new delivery", "success")
     TriggerClientEvent('QBCore:Notify', src, "You have earned in money $"..tacomoney)
     if tiprandom >= 25 then
-        Player.Functions.AddMoney("cash", UM.TacoTip, "taco-tip")
-        TriggerClientEvent('QBCore:Notify', src, "You have earned in tips $"..UM.TacoTip)
+        Player.Functions.AddMoney("cash", Config.TacoTip, "taco-tip")
+        TriggerClientEvent('QBCore:Notify', src, "You have earned in tips $"..Config.TacoTip)
     end
 end)
 

@@ -10,12 +10,12 @@ CreateThread(function()
         local PlayerPed = PlayerPedId()
         local PlayerPos = GetEntityCoords(PlayerPed)
         local coords = GetBlipInfoIdCoord(sellblip)
-        local tacobreadDist = #(PlayerPos - UM.TacoMarker["tacobread"])
-        local tacomeatDist = #(PlayerPos - UM.TacoMarker["tacomeat"])
-        local tacosaladDist = #(PlayerPos - UM.TacoMarker["tacosalad"])
-        local tacoDist = #(PlayerPos - UM.TacoMarker["taco"])
-        local tacopackedDist = #(PlayerPos - UM.TacoMarker["packedtaco"])
-        local tacoSell = #(PlayerPos - UM.TacoMarker["selltaco"])
+        local tacobreadDist = #(PlayerPos - Config.TacoMarker["tacobread"])
+        local tacomeatDist = #(PlayerPos - Config.TacoMarker["tacomeat"])
+        local tacosaladDist = #(PlayerPos - Config.TacoMarker["tacosalad"])
+        local tacoDist = #(PlayerPos - Config.TacoMarker["taco"])
+        local tacopackedDist = #(PlayerPos - Config.TacoMarker["packedtaco"])
+        local tacoSell = #(PlayerPos - Config.TacoMarker["selltaco"])
         local tacoDelivery = #(PlayerPos - vec3(coords[1], coords[2], coords[3]))
         local pressedKeyE = IsControlJustPressed(0, 38)
         if tacobreadDist < 1 then sleep = 5 inZone  = true 
@@ -88,8 +88,8 @@ end
 sellTaco = function(checkitem)
     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(cb)  
         if cb and not sellstart then
-            local random = math.random(1,#UM.Locations)
-            sellcoords = {x = UM.Locations[random][1],y = UM.Locations[random][2],z = UM.Locations[random][3],h = UM.Locations[random][4]}
+            local random = math.random(1,#Config.Locations)
+            sellcoords = {x = Config.Locations[random][1],y = Config.Locations[random][2],z = Config.Locations[random][3],h = Config.Locations[random][4]}
             sellblip = CreateSellBlip(sellcoords.x, sellcoords.y, sellcoords.z)
             SetNewWaypoint(sellcoords.x, sellcoords.y)
             sellstart = true
