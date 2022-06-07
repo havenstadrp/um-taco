@@ -10,45 +10,47 @@ CreateThread(function()
         local PlayerPed = PlayerPedId()
         local PlayerPos = GetEntityCoords(PlayerPed)
         local coords = GetBlipInfoIdCoord(sellblip)
-        local tacobreadDist = #(PlayerPos - Config.TacoMarker["tacobread"])
-        local tacomeatDist = #(PlayerPos - Config.TacoMarker["tacomeat"])
-        local tacosaladDist = #(PlayerPos - Config.TacoMarker["tacosalad"])
+        local taco_breadDist = #(PlayerPos - Config.TacoMarker["taco_bread"])
+        local taco_meatDist = #(PlayerPos - Config.TacoMarker["taco_meat"])
+        local taco_meatDist = #(PlayerPos - Config.TacoMarker["taco_salad"])
         local tacoDist = #(PlayerPos - Config.TacoMarker["taco"])
-        local tacopackedDist = #(PlayerPos - Config.TacoMarker["packedtaco"])
+        local tacopackedDist = #(PlayerPos - Config.TacoMarker["taco_packed"])
         local tacoSell = #(PlayerPos - Config.TacoMarker["selltaco"])
         local tacoDelivery = #(PlayerPos - vec3(coords[1], coords[2], coords[3]))
         local pressedKeyE = IsControlJustPressed(0, 38)
-        if tacobreadDist < 1 then sleep = 5 inZone  = true 
-            Notify = '[E] - Taco Bread' if pressedKeyE then addItem(2000,"tacobread") end
+        if taco_breadDist < 1 then sleep = 5 inZone  = true 
+            Notify = '[E] - Taco Bread' if pressedKeyE then addItem(2000,"taco_bread") end
         end
-        if tacomeatDist < 1 then sleep = 5 inZone  = true  
-            Notify = '[E] - Taco Meat' if pressedKeyE then  addItem(8000,"tacomeat") end
+        if taco_meatDist < 1 then sleep = 5 inZone  = true  
+            Notify = '[E] - Taco Meat' if pressedKeyE then  addItem(8000,"taco_meat") end
         end
-        if tacosaladDist < 1 then sleep = 5 inZone  = true 
-            Notify = '[E] - Taco Salad' if pressedKeyE then addItem(8000,"tacosalad") end
+        if taco_meatDist < 1 then sleep = 5 inZone  = true 
+            Notify = '[E] - Taco Salad' if pressedKeyE then addItem(8000,"taco_salad") end
         end
         if tacoDist < 1 then sleep = 5 inZone  = true 
             Notify = '[E] - Taco' if pressedKeyE then checkTaco("taco") end
         end
         if tacopackedDist < 1 then sleep = 5 inZone  = true 
-            Notify = '[E] - Packed Taco' if pressedKeyE then checkItem("taco","packedtaco") end
+            Notify = '[E] - Packed Taco' if pressedKeyE then checkItem("taco","taco_packed") end
         end
         if tacoSell < 1 then sleep = 5 inZone  = true 
-            Notify = '[E] - Sell Taco' if pressedKeyE then sellTaco("packedtaco") end
+            Notify = '[E] - Sell Taco' if pressedKeyE then sellTaco("taco_packed") end
         end
         if tacoDelivery < 4 and sellstart then sleep = 5
             DrawMarker(2, coords[1], coords[2], coords[3], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 225, 138, 21, 200, 0, 0, 0, 1, 0, 0, 0)
             if tacoDelivery < 1 then inZone  = true 
-               Notify = '[E] - Delivery Taco' if pressedKeyE then checkDelivery("packedtaco") end
-         end
+                Notify = '[E] - Delivery Taco' if pressedKeyE then checkDelivery("taco_packed") end
+        end
     end
         if inZone and not enterZone then
             enterZone = true
-            TriggerEvent('luke_textui:ShowUI', "<b>"..Notify.."</b>", "#D9911B")
+            -- TriggerEvent('luke_textui:ShowUI', "<b>"..Notify.."</b>", "#D9911B")
+            exports['qb-core']:DrawText("<b>"..Notify.."</b>",'left')
         end
         if not inZone and enterZone then
             enterZone = false
-            TriggerEvent('luke_textui:HideUI')
+            exports['qb-core']:HideText()
+            -- TriggerEvent('luke_textui:HideUI')
         end
         Wait(sleep)
     end
@@ -130,22 +132,22 @@ CreateSellBlip = function(x,y,z)
 	return blip
 end
 
-CreateThread(function()
-    local modelHash = GetHashKey("u_f_o_eileen")
-    RequestModel(modelHash)
-      while not HasModelLoaded(modelHash) do
-        Wait(10)
-      end
-    local ped = CreatePed(4, modelHash, 9.95, -1604.68, 28.38, 230.2, false, false)
-    SetEntityInvincible(ped, true)
-    SetBlockingOfNonTemporaryEvents(ped, true)
-    FreezeEntityPosition(ped, true)
-    local blip = AddBlipForCoord(12.92127, -1602.86, 29.374)
-    SetBlipSprite(blip, 208)
-    SetBlipAsShortRange(blip, true)
-    SetBlipScale(blip, 0.6)
-    SetBlipColour(blip, 44)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString("Taco")
-    EndTextCommandSetBlipName(blip)
-end)
+-- CreateThread(function()
+--     local modelHash = GetHashKey("u_f_o_eileen")
+--     RequestModel(modelHash)
+--       while not HasModelLoaded(modelHash) do
+--         Wait(10)
+--       end
+--     local ped = CreatePed(4, modelHash, 9.95, -1604.68, 28.38, 230.2, false, false)
+--     SetEntityInvincible(ped, true)
+--     SetBlockingOfNonTemporaryEvents(ped, true)
+--     FreezeEntityPosition(ped, true)
+--     local blip = AddBlipForCoord(12.92127, -1602.86, 29.374)
+--     SetBlipSprite(blip, 208)
+--     SetBlipAsShortRange(blip, true)
+--     SetBlipScale(blip, 0.6)
+--     SetBlipColour(blip, 44)
+--     BeginTextCommandSetBlipName("STRING")
+--     AddTextComponentString("Taco")
+--     EndTextCommandSetBlipName(blip)
+-- end)

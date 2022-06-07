@@ -5,15 +5,15 @@ Config.TacoMoneyMax = 500
 Config.TacoTip = 25 -- not always 
 
 Config.ProgressBar = {
-    ["tacobread"] = {
+    ["taco_bread"] = {
         ["time"] =  4000,
         ["text"] = "Brood snijden"
     },
-    ["tacomeat"] = {
+    ["taco_meat"] = {
         ["time"] =  4000,
         ["text"] = "Vlees bakken"
     },
-    ["tacosalad"] = {
+    ["taco_salad"] = {
         ["time"] =  4000,
         ["text"] = "Sla snijden"
     },
@@ -21,7 +21,7 @@ Config.ProgressBar = {
         ["time"] =  7000,
         ["text"] = "Taco vullen"
     },
-    ["packedtaco"] = {
+    ["taco_packed"] = {
         ["time"] =  8000,
         ["text"] = "Taco verpakken"
     },
@@ -33,11 +33,11 @@ Config.ProgressBar = {
 
 
 Config.TacoMarker = {
-    ["tacobread"] = vector3(14.36562, -1597.06, 29.377),
-    ["tacomeat"]  = vector3(11.34605, -1599.33, 29.375),
-    ["tacosalad"] = vector3(15.59666, -1598.30, 29.377),
+    ["taco_bread"] = vector3(14.36562, -1597.06, 29.377),
+    ["taco_meat"]  = vector3(11.34605, -1599.33, 29.375),
+    ["taco_salad"] = vector3(15.59666, -1598.30, 29.377),
     ["taco"]      = vector3(13.46539, -1596.81, 29.377),
-    ["packedtaco"]= vector3(7.122154, -1604.74, 29.371),
+    ["taco_packed"]= vector3(7.122154, -1604.74, 29.371),
     ["selltaco"]  = vector3(5.339738, -1605.11, 29.395),
 }
 
