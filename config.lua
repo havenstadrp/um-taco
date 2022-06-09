@@ -1,7 +1,7 @@
 Config = {}
 
-Config.TacoMoneyMin = 300
-Config.TacoMoneyMax = 500
+Config.TacoMoneyMin = 100
+Config.TacoMoneyMax = 150
 Config.TacoTip = 25 -- not always 
 
 Config.ProgressBar = {
